@@ -1,4 +1,4 @@
-var { nanoid } = require("nanoid");
+const dayjs = require("dayjs");
 
 /**
  * Reservations.js
@@ -11,7 +11,6 @@ module.exports = {
   attributes: {
     reservationId: {
       type: "string",
-      defaultsTo: nanoid(5),
     },
 
     clientName: {
@@ -27,10 +26,16 @@ module.exports = {
     startDate: {
       type: "string",
       required: true,
+      custom: function (value) {
+        return dayjs(value).isValid();
+      },
     },
     endDate: {
       type: "string",
       allowNull: true,
+      custom: function (value) {
+        return dayjs(value).isValid();
+      },
     },
 
     orderStatus: {
@@ -50,5 +55,16 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
+  },
+
+  beforeCreate: (values, proceed) => {
+    const { startDate, endDate } = values;
+
+    const startDateParsed = dayjs(startDate).toDate().toDateString();
+    const endDateParsed = dayjs(endDate).toDate().toDateString();
+
+    values = { ...values, startDate: startDateParsed, endDate: endDateParsed };
+
+    return proceed();
   },
 };

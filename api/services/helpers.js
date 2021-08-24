@@ -1,5 +1,19 @@
 const dayjs = require("dayjs");
 
+const isDateRangeOverlapping = (firstRange, secondRange) => {
+  const isToTheLeft = dayjs(firstRange.endDate).isBefore(
+    dayjs(secondRange.StartDate),
+    "d"
+  );
+
+  const isToTheRight = dayjs(firstRange.startDate).isAfter(
+    dayjs(secondRange.endDate),
+    "d"
+  );
+
+  return !(isToTheRight || isToTheLeft);
+};
+
 const getAfterIncrementDateString = (startDate, increment) =>
   dayjs(startDate).add(increment, "days").toDate().toDateString();
 
@@ -13,4 +27,5 @@ module.exports = {
   getAfterIncrementDateString,
   getRandomInt,
   getRandomPickForArray,
+  isDateRangeOverlapping,
 };

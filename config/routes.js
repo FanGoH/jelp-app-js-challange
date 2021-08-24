@@ -19,6 +19,10 @@ module.exports.routes = {
    ***************************************************************************/
 
   "/": { view: "pages/homepage" },
+  "POST /availability": { action: "availability" },
+  "GET /reservations": { action: "reservations/find" },
+  "POST /reservations": { action: "reservations/create" },
+  "DELETE /reservations": { action: "reservations/delete" },
 
   /***************************************************************************
    *                                                                          *

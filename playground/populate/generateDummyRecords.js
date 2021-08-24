@@ -2,9 +2,13 @@ const dayjs = require("dayjs");
 const axios = require("axios");
 
 const { verifyAvailability } = require("./verifyAvailability");
-const { getRandomInt, getRandomPickForArray } = require("./helpers");
+const { getRandomInt } = require("./helpers");
 
-const generateDummyRecords = async (noRecords, noOfRooms) => {
+const generateDummyRecords = async (
+  noRecords,
+  noOfRooms,
+  noOfDaysForward = 14
+) => {
   const names = (
     await axios.get(
       `https://randomuser.me/api/?inc=name&noinfo&results=${noRecords}&nat=us`
@@ -16,8 +20,8 @@ const generateDummyRecords = async (noRecords, noOfRooms) => {
   const records = [];
 
   for (let i = 0; i < noRecords; i++) {
-    const startDateDelay = getRandomInt(0, 7);
-    const endDateDelay = getRandomInt(startDateDelay, 7);
+    const startDateDelay = getRandomInt(0, noOfDaysForward);
+    const endDateDelay = getRandomInt(startDateDelay, noOfDaysForward);
 
     const proposedStart = today
       .add(startDateDelay, "day")
@@ -42,7 +46,7 @@ const generateDummyRecords = async (noRecords, noOfRooms) => {
 
     records.push({
       clientName: names[i],
-      roomNo: getRandomPickForArray(daysAvailable),
+      // roomNo: getRandomPickForArray(daysAvailable),
       startDate: proposedStart,
       endDate: proposedEnd,
     });
