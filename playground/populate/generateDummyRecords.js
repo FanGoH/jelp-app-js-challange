@@ -1,12 +1,12 @@
 const dayjs = require("dayjs");
 const axios = require("axios");
 
-const { verifyAvailability } = require("./verifyAvailability");
+//const { verifyAvailability } = require("./verifyAvailability");
 const { getRandomInt } = require("./helpers");
 
 const generateDummyRecords = async (
   noRecords,
-  noOfRooms,
+  _noOfRooms,
   noOfDaysForward = 14
 ) => {
   const names = (
@@ -17,7 +17,7 @@ const generateDummyRecords = async (
 
   const today = dayjs();
 
-  const records = [];
+  //const records = [];
 
   for (let i = 0; i < noRecords; i++) {
     const startDateDelay = getRandomInt(0, noOfDaysForward);
@@ -29,30 +29,42 @@ const generateDummyRecords = async (
       .toDateString();
     const proposedEnd = today.add(endDateDelay, "day").toDate().toDateString();
 
-    const daysAvailable = verifyAvailability(
-      records,
-      {
-        clientName: names[i],
+    const daysAvailable = (
+      await axios.post("http://localhost:1337/availability", {
         startDate: proposedStart,
         endDate: proposedEnd,
-      },
-      noOfRooms
-    );
+      })
+    ).data;
+
+    // verifyAvailability(
+    //       records,
+    //       {
+    //         clientName: names[i],
+    //         startDate: proposedStart,
+    //         endDate: proposedEnd,
+    //       },
+    //       noOfRooms
+    //     );
 
     if (daysAvailable.length === 0) {
       console.log("This registration cannot be made");
       continue;
     }
 
-    records.push({
+    await axios.post("http://localhost:1337/reservations", {
       clientName: names[i],
-      // roomNo: getRandomPickForArray(daysAvailable),
       startDate: proposedStart,
       endDate: proposedEnd,
     });
+
+    // records.push({
+    //   clientName: names[i],
+    //   startDate: proposedStart,
+    //   endDate: proposedEnd,
+    // });
   }
 
-  return records;
+  //  return records;
 };
 
 module.exports = {

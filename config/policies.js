@@ -18,8 +18,10 @@ module.exports.policies = {
 
   // '*': true,
   ReservationsController: {
-    create: "dateIsBefore",
+    create: ["dateAreValid", "dateIsBefore"],
   },
 
-  availability: "dateIsBefore",
+  "reservations/create": ["dateAreValid", "dateIsBefore"],
+
+  availability: ["dateAreValid", "dateIsBefore"],
 };
