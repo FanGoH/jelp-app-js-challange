@@ -1,7 +1,6 @@
 # Jelp App - Javascript Challange
 
-Este repositorio es la entrega oficial para la prueba técnica que me fue encomendada por parte de Jelp App. El presente readMe tiene como propósito explicar un poco sobre mi proceso de pensamiento al abordar éste problema, así como algunas instrucciones para su ejecución. Será presentado a manera de timeline, sin embargo, también presento un índice para navegar por el documento.
-
+Este repositorio es la entrega oficial para la prueba técnica que me fue encomendada por parte de Jelp App. El presente readMe tiene como propósito explicar un poco sobre mi proceso de pensamiento al abordar éste problema, así como algunas instrucciones para su ejecución. Será presentado a manera de timeline.
 
 El producto final es un pequeño servidor escrito con el framework [Sails v1](https://sailsjs.com), que tiene como propósito atender las solicitudes y manejar un sistema de reservaciones de un hotel.
 
